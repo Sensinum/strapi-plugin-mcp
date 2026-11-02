@@ -5,13 +5,13 @@
   <h1>Strapi - MCP Plugin</h1>
   <p>AI models access to the Strapi Context via the Model Context Protocol (MCP)</p>
   <a href="https://www.npmjs.org/package/@sensinum/strapi-plugin-mcp">
-    <img alt="GitHub package.json version" src="https://img.shields.io/github/package-json/v/VirtusLab-Open-Source/strapi-plugin-mcp?label=npm&logo=npm">
+    <img alt="GitHub package.json version" src="https://img.shields.io/github/package-json/v/Sensinum/strapi-plugin-mcp?label=npm&logo=npm">
   </a>
   <a href="https://www.npmjs.org/package/@sensinum/strapi-plugin-mcp">
     <img src="https://img.shields.io/npm/dm/@sensinum/strapi-plugin-mcp.svg" alt="Monthly download on NPM" />
   </a>
-  <a href="https://circleci.com/gh/VirtusLab-Open-Source/strapi-plugin-mcp">
-    <img src="https://circleci.com/gh/VirtusLab-Open-Source/strapi-plugin-mcp.svg?style=shield" alt="CircleCI" />
+  <a href="https://github.com/Sensinum/strapi-plugin-mcp/actions/workflows/ci.yml">
+    <img src="https://github.com/Sensinum/strapi-plugin-mcp/actions/workflows/ci.yml/badge.svg" alt="CI" />
   </a>
 </div>
 
@@ -559,4 +559,4 @@ The plugin follows Strapi v5 plugin architecture with separate admin and server 
 
 ## 📝 License
 
-[MIT License](LICENSE.md) Copyright (c) [VirtusLab Sp. z o.o.](https://virtuslab.com/) &amp; [Strapi Solutions](https://strapi.io/).
+[MIT License](LICENSE) Copyright (c) [Sensinum Sp. z o.o.](https://www.sensinum.com/).
