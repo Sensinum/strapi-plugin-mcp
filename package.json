@@ -16,6 +16,10 @@
     "url": "https://github.com/Sensinum/strapi-plugin-mcp/issues"
   },
   "homepage": "https://github.com/Sensinum/strapi-plugin-mcp#readme",
+  "engines": {
+    "node": ">=22.0.0 <=26.x.x",
+    "npm": ">=6.0.0"
+  },
   "type": "commonjs",
   "exports": {
     "./package.json": "./package.json",
