@@ -8,6 +8,14 @@
   "contributors": [
     "Maksymilian Pamuła <mpamula@virtuslab.com>"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Sensinum/strapi-plugin-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Sensinum/strapi-plugin-mcp/issues"
+  },
+  "homepage": "https://github.com/Sensinum/strapi-plugin-mcp#readme",
   "type": "commonjs",
   "exports": {
     "./package.json": "./package.json",
