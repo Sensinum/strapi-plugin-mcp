@@ -43,7 +43,7 @@ describe('customService', () => {
         },
         callback: vi.fn(),
         annotations: {
-          audience: ['user'],
+          readOnlyHint: true,
         },
       };
 
@@ -57,12 +57,12 @@ describe('customService', () => {
         name: faker.word.noun(),
         callback: vi.fn(),
       };
-      const tool2: McpToolDefinition<{ value: z.ZodNumber }> = {
+      const tool2 = {
         name: faker.word.noun(),
         description: faker.lorem.sentence(),
         argsSchema: { value: z.number() },
         callback: vi.fn(),
-      };
+      } as McpToolDefinition<{ value: z.ZodNumber }>;
 
       // When & Then
       expect(() => {
@@ -128,7 +128,7 @@ describe('customService', () => {
       // Given
       const toolName = faker.word.noun();
       const argsSchema = { count: z.number() };
-      const annotations = { audience: ['user'] as const };
+      const annotations = { readOnlyHint: true };
       const callback = vi.fn();
       const toolDefinition: McpToolDefinition<typeof argsSchema> = {
         name: toolName,
@@ -151,15 +151,15 @@ describe('customService', () => {
       const toolName = faker.word.noun();
       const description = faker.lorem.sentence();
       const argsSchema = { data: z.object({ id: z.string() }) };
-      const annotations = { audience: ['user'] as const };
+      const annotations = { readOnlyHint: true };
       const callback = vi.fn();
-      const toolDefinition: McpToolDefinition<typeof argsSchema> = {
+      const toolDefinition = {
         name: toolName,
         description,
         argsSchema,
         annotations,
         callback,
-      };
+      } as McpToolDefinition<typeof argsSchema>;
       service.registerTool(toolDefinition);
 
       // When
@@ -285,11 +285,11 @@ describe('customService', () => {
         filters: z.array(z.string()).optional(),
       };
       const callback = vi.fn();
-      const toolDefinition: McpToolDefinition<typeof argsSchema> = {
+      const toolDefinition = {
         name: toolName,
         argsSchema,
         callback,
-      };
+      } as McpToolDefinition<typeof argsSchema>;
       service.registerTool(toolDefinition);
 
       // When

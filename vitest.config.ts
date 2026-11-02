@@ -10,7 +10,7 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reportsDirectory: './coverage',
-      reporter: ['text', 'html'],
+      reporter: ['text', 'html', 'lcov'],
     },
   },
   resolve: {
