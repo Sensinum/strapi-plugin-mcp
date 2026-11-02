@@ -10,6 +10,7 @@ env:
 
 permissions:
   contents: write
+  id-token: write # Required for npm Trusted Publisher (OIDC)
 
 jobs:
   release:
@@ -81,6 +82,10 @@ jobs:
           cache: pnpm
           registry-url: https://registry.npmjs.org
 
+      # Trusted publishing needs npm >= 11.5.1 (Node 22 image may ship an older CLI)
+      - name: Ensure npm supports OIDC trusted publishing
+        run: npm install -g npm@^11.5.1
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
@@ -99,18 +104,8 @@ jobs:
       - name: Build
         run: pnpm build
 
-      - name: Require NPM_TOKEN
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          if [ -z "$NPM_TOKEN" ]; then
-            echo "NPM_TOKEN secret is required"
-            exit 1
-          fi
-
       - name: Publish to npm
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           IS_PRERELEASE: ${{ github.event.release.prerelease }}
         run: |
           if [ "$IS_PRERELEASE" = "true" ]; then

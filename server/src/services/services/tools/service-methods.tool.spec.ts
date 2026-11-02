@@ -107,10 +107,12 @@ describe('getServiceMethodsTool', () => {
 
   it('returns suggestions when similar service names exist', async () => {
     // Given
-    const topic = faker.word.noun();
-    const k1 = `api::${topic}.${faker.word.noun()}`;
-    const k2 = `api::${topic}.${faker.word.noun()}`;
-    const kOther = `plugin::${faker.word.noun()}.${faker.word.noun()}`; // does not include topic
+    // Use fixed names so we never accidentally create `api::${topic}.${topic}`,
+    // which the tool treats as an exact match when plugin is omitted.
+    const topic = 'article';
+    const k1 = `api::${topic}.draft`;
+    const k2 = `api::${topic}.published`;
+    const kOther = 'plugin::users-permissions.user'; // does not include topic
     const strapi = createStrapiServiceMock({
       services: {
         [k1]: { a: 1 },
