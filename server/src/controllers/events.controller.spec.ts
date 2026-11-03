@@ -20,10 +20,13 @@ vi.mock('../utils', () => {
 
 // Mock MCP server to prevent real behavior
 vi.mock('@modelcontextprotocol/sdk/server/mcp.js', () => {
+  // Vitest 4 requires constructor mocks to be a function/class when used with `new`
   return {
-    McpServer: vi.fn(() => ({
-      connect: vi.fn(async () => undefined),
-    })),
+    McpServer: vi.fn(
+      class McpServer {
+        connect = vi.fn(async () => undefined);
+      }
+    ),
   };
 });
 

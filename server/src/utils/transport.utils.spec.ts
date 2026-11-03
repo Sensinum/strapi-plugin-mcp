@@ -16,10 +16,18 @@ const mockStrapi = {
 } as any;
 
 vi.mock('ioredis', () => {
+  // Vitest 4 requires constructor mocks to be a function/class when used with `new`
   return {
-    Redis: vi.fn(),
+    Redis: vi.fn(function Redis() {}),
   };
 });
+
+const mockRedisConstructor = (client: unknown) => {
+  // Return the client from a classic function so `new Redis()` works under Vitest 4
+  (Redis as unknown as Mock).mockImplementation(function RedisMock(this: unknown) {
+    return client;
+  });
+};
 
 describe('createTransportStore', () => {
   beforeEach(() => {
@@ -178,7 +186,7 @@ describe('createTransportStore', () => {
         throw new Error('Connection failed');
       }),
     };
-    (Redis as unknown as Mock).mockReturnValue(mockRedis);
+    mockRedisConstructor(mockRedis);
 
     // When - should not throw despite Redis connection failure
     const store = createTransportStore({
@@ -210,7 +218,7 @@ describe('createTransportStore', () => {
       on: vi.fn(),
       ping: vi.fn(async () => 'PONG'),
     } as any;
-    (Redis as unknown as Mock).mockReturnValue(client);
+    mockRedisConstructor(client);
 
     const store = createTransportStore({
       strapi: mockStrapi,
@@ -254,7 +262,7 @@ describe('createTransportStore', () => {
       ping: vi.fn(async () => 'PONG'),
     } as any;
 
-    (Redis as unknown as Mock).mockReturnValue(client);
+    mockRedisConstructor(client);
 
     const store = createTransportStore({
       strapi: mockStrapi,
@@ -268,7 +276,7 @@ describe('createTransportStore', () => {
     const t = new StreamableHTTPServerTransport({} as any);
 
     // When
-    store.set('sess', t);
+    await store.set('sess', t);
 
     // Then: local get works and redis set called with PX ttl
     const result = await store.get('sess');
