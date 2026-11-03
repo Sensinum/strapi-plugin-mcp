@@ -104,8 +104,11 @@ describe('createTransportStore', () => {
       onsessioninitialized: onInit,
     });
 
-    // When: simulate session init via internal hook
-    (transport as any)._onsessioninitialized?.('sess-123');
+    // When: simulate session init via SDK internal hook (wrapped under webStandard transport)
+    const onSessionInitialized =
+      (transport as any)._webStandardTransport?._onsessioninitialized ??
+      (transport as any)._onsessioninitialized;
+    await onSessionInitialized?.('sess-123');
 
     // Then
     const result = await store.get('sess-123');

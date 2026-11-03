@@ -48,10 +48,10 @@
     "changelog": "node scripts/generate-changelog.js && git add CHANGELOG.md && git commit --amend --no-edit --no-verify"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.18.0",
+    "@modelcontextprotocol/sdk": "^1.32.2",
     "@types/lodash": "^4.17.20",
     "ioredis": "^5.7.0",
-    "lodash": "^4.17.21",
+    "lodash": "^4.18.1",
     "lru-cache": "^11.2.1",
     "react-intl": "^7.1.11",
     "zod": "^3.25.42"
@@ -93,5 +93,16 @@
   },
   "lint-staged": {
     "*.ts": "prettier --write"
+  },
+  "pnpm": {
+    "overrides": {
+      "lodash": "^4.18.1",
+      "proxy-addr": "^2.0.8",
+      "path-to-regexp@>=8.0.0 <8.4.0": "^8.4.0",
+      "fast-uri": "^3.1.5",
+      "body-parser": "^2.4.0",
+      "qs": "^6.16.1",
+      "ajv": "^8.18.0"
+    }
   }
 }

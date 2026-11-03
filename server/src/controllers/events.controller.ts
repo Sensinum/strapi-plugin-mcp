@@ -97,9 +97,12 @@ const eventsController = ({ strapi }: StrapiContext) => {
       if (existing.type !== 'none') {
         if (existing.type === 'regenerated') {
           // In service of DX, we re-initialize the transport manually. This is a hack.
-          existing.transport.sessionId = sessionId;
-          // @ts-expect-error - _initialized is private
-          existing.transport._initialized = true;
+          // SDK >=1.26 wraps state on `_webStandardTransport` (sessionId is a read-only getter).
+          const inner = (existing.transport as any)._webStandardTransport;
+          if (inner) {
+            inner.sessionId = sessionId;
+            inner._initialized = true;
+          }
 
           logger.debug(`Regenerated transport for session ${sessionId}`);
 
