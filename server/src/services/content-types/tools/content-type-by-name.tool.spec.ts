@@ -71,9 +71,11 @@ describe('getContentTypeByNameTool', () => {
   it('returns suggestions when no exact match is found but similar UIDs exist', async () => {
     // Given
     const topic = faker.word.noun();
+    const relatedA = `${faker.word.noun()}A`;
+    const relatedB = `${faker.word.noun()}B`;
     const keys = [
-      `api::${topic}.${faker.word.noun()}`,
-      `api::${topic}.${faker.word.noun()}`,
+      `api::${topic}.${relatedA}`,
+      `api::${topic}.${relatedB}`,
       `plugin::${faker.word.noun()}.${faker.word.noun()}`,
     ];
     const strapi = createStrapiMock({ contentTypes: keys });

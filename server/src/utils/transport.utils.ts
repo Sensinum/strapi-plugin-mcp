@@ -14,7 +14,7 @@ export type TransportStoreMode = 'lru' | 'redis';
 /** Options for creating a transport instance registered in the store. */
 export interface CreateTransportOptions {
   sessionIdGenerator?: () => string;
-  onsessioninitialized?: (sessionId: string) => void;
+  onsessioninitialized?: (sessionId: string) => void | Promise<void>;
 }
 
 // Extended transport store options that include LRU-specific settings
@@ -320,14 +320,14 @@ export function createTransportStore({
   const createTransport = (options: CreateTransportOptions = {}) => {
     const transport = new StreamableHTTPServerTransport({
       sessionIdGenerator: options.sessionIdGenerator,
-      onsessioninitialized: (sessionId: string) => {
-        set(sessionId, transport);
+      onsessioninitialized: async (sessionId: string) => {
+        await set(sessionId, transport);
 
         logger.debug(`Initialized transport for session ${sessionId}`);
 
         if (typeof options.onsessioninitialized === 'function') {
           try {
-            options.onsessioninitialized(sessionId);
+            await options.onsessioninitialized(sessionId);
           } catch {
             // ignore user callback errors to not break store behavior
           }
