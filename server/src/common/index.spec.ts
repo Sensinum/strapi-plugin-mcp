@@ -1,6 +1,6 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp';
 import { describe, expect, it, vi } from 'vitest';
-import { ZodRawShape } from 'zod';
+import { z, ZodRawShape } from 'zod';
 
 import { McpToolDefinition, registerTool } from '.';
 
@@ -111,6 +111,36 @@ describe('applyTool', () => {
       expect.any(Object),
       expect.any(Object),
       expect.any(Function)
+    );
+  });
+
+  it('registers no-arg tools with a real McpServer when argsSchema is a raw empty shape', () => {
+    // Given — regression for #17 / #22 (SDK ≥1.28 rejects z.object({}))
+    const server = new McpServer({ name: 'test', version: '1.0.0' });
+    const tool: McpToolDefinition<ZodRawShape> = {
+      name: 'get-content-types',
+      description: 'Get all content types',
+      argsSchema: {},
+      callback: async () => ({ content: [{ type: 'text', text: 'ok' }] }),
+    };
+
+    // When / Then
+    expect(() => registerTool({ server, tool })).not.toThrow();
+  });
+
+  it('rejects z.object({}) as argsSchema against a real McpServer', () => {
+    // Given — documents the SDK failure mode fixed in #17
+    const server = new McpServer({ name: 'test', version: '1.0.0' });
+    const tool = {
+      name: 'get-content-types',
+      description: 'Get all content types',
+      argsSchema: z.object({}),
+      callback: async () => ({ content: [{ type: 'text', text: 'ok' }] }),
+    } as unknown as McpToolDefinition<ZodRawShape>;
+
+    // When / Then
+    expect(() => registerTool({ server, tool })).toThrow(
+      /expected a Zod schema or ToolAnnotations/
     );
   });
 });
