@@ -1,1 +1,1 @@
-pnpm test:run
+yarn test:run
